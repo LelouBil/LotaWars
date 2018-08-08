@@ -1,0 +1,13 @@
+name: LotaWars
+version: ${project.version}
+main: fr.leloubil.lotawars.LotaWars
+prefix: LotaWars
+depend: [ViaVersion,LotaryAPI,MiniHub]
+authors: [LelouBil]
+description: LotaWars
+website: lotary.net
+commands:
+  wardebug:
+  wargame:
+  warmap:
+  warmatch:
