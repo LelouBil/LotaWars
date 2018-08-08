@@ -1,6 +1,6 @@
 ##Liste des serveurs sur lesquels deploy le jar
 servers:
-  - "Mini-Jeux"
+  - "Practice"
 
 ##true si il faut redemarrer les serveur apres (default : false)
 ##restart: true
