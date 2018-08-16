@@ -69,18 +69,18 @@
     <repositories>
         <repository>
             <id>LotaMaven</id>
-            <url>http://admin.lotary.net:8989/repository/LotaMaven/</url>
+            <url>https://maven.lotary.net/repository/LotaMaven/</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <snapshotRepository>
             <id>LotaMaven-Snapshots</id>
-            <url>http://admin.lotary.net:8989/repository/LotaMaven-Snapshots/</url>
+            <url>https://maven.lotary.net/repository/LotaMaven-Snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>LotaMaven-Releases</id>
-            <url>http://admin.lotary.net:8989/repository/LotaMaven-Releases/</url>
+            <url>https://maven.lotary.net/repository/LotaMaven-Releases/</url>
         </repository>
     </distributionManagement>
     <dependencies>
