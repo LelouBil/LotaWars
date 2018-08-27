@@ -569,7 +569,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
                 loss+= data.getInt("loss");
             }
             else {
-                towrite.put("uuid",p.getUniqueId().toString());
+                towrite.put("UUID",p.getUniqueId().toString());
                 towrite.put("kills", String.valueOf(kills));
                 towrite.put("deaths", String.valueOf(morts));
                 towrite.put("wins", String.valueOf(wins));
