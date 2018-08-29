@@ -197,9 +197,6 @@ public class Lobby extends Game {
         p.teleport(MiniHub.getLobby());
         MiniHub.giveItems(p);
         Listeners.updateHideShow();
-        p.getWorld().getPlayers().forEach(pl -> {if(MiniHub.games.containsKey(pl.getUniqueId())) p.hidePlayer(pl);});
-        p.getWorld().getPlayers().forEach(pl -> {if(!MiniHub.games.containsKey(pl.getUniqueId()) && !ModManager.mods.containsKey(pl)) p.showPlayer(pl);});
-
         SignManager.UpdateSign(sign);
         updateScoreboards();
     }
@@ -237,14 +234,6 @@ public class Lobby extends Game {
         getMap().getRedSpawn().getChunk().load();
     }
 
-    public void hidePlayer(Player p){
-        World w = p.getWorld();
-        w.getPlayers().forEach(pl -> {
-            if(!MiniHub.games.containsKey(pl.getUniqueId()) || !MiniHub.games.get(pl.getUniqueId()).getName().equals(this.getName())){
-               p.hidePlayer(pl);
-            }
-        });
-    }
     public void showPlayer(Player p){
         MiniHub.games.keySet().forEach(s -> {if(Bukkit.getPlayer(s) != null && !ModManager.mods.containsKey(Bukkit.getPlayer(s))) p.showPlayer(Bukkit.getPlayer(s));});
     }
@@ -280,11 +269,11 @@ public class Lobby extends Game {
     public void reset() {
         updateScoreboards();
         waiting.forEach(p -> {
-            if(!ModManager.mods.containsKey(p)) showPlayer(p);
             LotaWars.getScoreboardSignHashMap().get(p).destroy();
             LotaWars.getScoreboardSignHashMap().remove(p);
         });
         waiting.clear();
+        Listeners.updateHideShow();
         SignManager.UpdateSign(sign);
 
     }

@@ -88,6 +88,7 @@ public class Listener implements org.bukkit.event.Listener {
         fr.leloubil.minihub.interfaces.Game minigame = MiniHub.games.get(p.getUniqueId());
         if(p.getWorld().getName().equals("lobby") && minigame.isLobby()){
             Lobby l = (Lobby) minigame;
+            if(e.getItem() == null) return;
             if(e.getItem().isSimilar(l.getBluewool())){
                 if(l.getPreblue().size() == l.maxPerTeam){
                     p.sendMessage(ChatColor.BLUE + "L'équipe bleue est pleine !");

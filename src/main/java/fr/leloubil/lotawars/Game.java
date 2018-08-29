@@ -4,6 +4,7 @@ import com.sun.media.sound.InvalidFormatException;
 import fr.leloubil.lotawars.matchmaking.Lobby;
 import fr.leloubil.lotawars.scoreboard.LotaPNJ;
 import fr.leloubil.lotawars.scoreboard.ScoreboardSign;
+import fr.leloubil.minihub.Listeners;
 import fr.leloubil.minihub.MiniHub;
 import lombok.Getter;
 import lombok.Setter;
@@ -225,6 +226,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
             p.setGameMode(GameMode.ADVENTURE);
             MiniHub.games.put(p.getUniqueId(),this);
         });
+        Listeners.updateHideShow();
         ToSpawn();
         SpawnPnj();
         started = true;
