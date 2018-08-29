@@ -8,6 +8,7 @@ import fr.leloubil.lotawars.scoreboard.ScoreboardSign;
 import fr.leloubil.minihub.Listeners;
 import fr.leloubil.minihub.MiniHub;
 import lombok.Getter;
+import net.lotary.modération.mods.ModManager;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -197,7 +198,7 @@ public class Lobby extends Game {
         MiniHub.giveItems(p);
         Listeners.updateHideShow();
         p.getWorld().getPlayers().forEach(pl -> {if(MiniHub.games.containsKey(pl.getUniqueId())) p.hidePlayer(pl);});
-        p.getWorld().getPlayers().forEach(pl -> {if(!MiniHub.games.containsKey(pl.getUniqueId())) p.showPlayer(pl);});
+        p.getWorld().getPlayers().forEach(pl -> {if(!MiniHub.games.containsKey(pl.getUniqueId()) && !ModManager.mods.containsKey(pl)) p.showPlayer(pl);});
 
         SignManager.UpdateSign(sign);
         updateScoreboards();
@@ -245,7 +246,7 @@ public class Lobby extends Game {
         });
     }
     public void showPlayer(Player p){
-        MiniHub.games.keySet().forEach(s -> {if(Bukkit.getPlayer(s) != null) p.showPlayer(Bukkit.getPlayer(s));});
+        MiniHub.games.keySet().forEach(s -> {if(Bukkit.getPlayer(s) != null && !ModManager.mods.containsKey(Bukkit.getPlayer(s))) p.showPlayer(Bukkit.getPlayer(s));});
     }
 
 
@@ -279,7 +280,7 @@ public class Lobby extends Game {
     public void reset() {
         updateScoreboards();
         waiting.forEach(p -> {
-            showPlayer(p);
+            if(!ModManager.mods.containsKey(p)) showPlayer(p);
             LotaWars.getScoreboardSignHashMap().get(p).destroy();
             LotaWars.getScoreboardSignHashMap().remove(p);
         });
