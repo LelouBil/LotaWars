@@ -188,7 +188,7 @@ public class Lobby extends Game {
         prered.remove(p);
         preblue.remove(p);
         updateTeams();
-        setTab(p,ChatColor.getByChar(p.getPlayerListName().charAt(5)));
+        setTab(p,ChatColor.getByChar(p.getPlayerListName().charAt(4)));
         LotaWars.getScoreboardSignHashMap().get(p).destroy();
         LotaWars.getScoreboardSignHashMap().remove(p);
         p.getInventory().clear();
