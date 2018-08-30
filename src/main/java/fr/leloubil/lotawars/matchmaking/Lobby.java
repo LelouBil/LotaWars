@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class Lobby extends Game {
+    // Global/lHub#2
     public Lobby(Map map, String name, int maxPlayers, World w, Sign s) {
         super(map.GetNew(w), name);
         ItemMeta meta = bluewool.getItemMeta();
