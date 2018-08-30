@@ -153,7 +153,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
         if(LotaWars.getScoreboardSignHashMap().containsKey(p)) {
             LotaWars.getScoreboardSignHashMap().get(p).destroy();
         }
-        setTab(p,ChatColor.getByChar(p.getPlayerListName().substring(1,2)));
+        setTab(p,ChatColor.getByChar(p.getPlayerListName().charAt(5)));
         redteam.remove(p);
         blueteam.remove(p);
         MiniHub.games.remove(p.getUniqueId());

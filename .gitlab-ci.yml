@@ -1,17 +1,26 @@
 image: lotaryupdater:latest
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode"
+  MAVEN_CLI_OPTS: "--batch-mode -Dmaven.repo.local=.m2/repository"
   MAVEN_OPTS: " "
 
 cache:
   paths:
-  - /root/.m2/repository/
-  - target/
+  - .m2/repository/*
+  - target/*
+
+stages:
+- build
+- test
+- package
+- mvn_deploy
+- lotary_deploy
+
 
 build:
   stage: build
   script:
+  - mvn clean
   - mvn $MAVEN_CLI_OPTS compile
 
 test:
@@ -19,15 +28,25 @@ test:
   script:
   - mvn $MAVEN_CLI_OPTS test
 
+package:
+  stage: package
+  script:
+  - mvn $MAVEN_CLI_OPTS package
+
 deploy_mvn:
-  stage: deploy
+  stage: mvn_deploy
   script:
   - mvn $MAVEN_CLI_OPTS deploy
+  - cp target/*-jar-with-dependencies.jar ./
   only:
-  - master
+  - tags
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME-jar"
+    paths:
+    - ./*-jar-with-dependencies.jar
 
 deploy_test:
-  stage: deploy
+  stage: lotary_deploy
   script:
   - echo "Push vers le serveur dev"
   - lotarydeploy dev
@@ -35,12 +54,13 @@ deploy_test:
     name: Dev
 
 deploy_prod:
-  stage: deploy
+  stage: lotary_deploy
   script:
   - echo "Push vers les serveurs"
   - lotarydeploy prod
+  dependencies:
+  - deploy_mvn
   environment:
     name: Prod
-  when: manual
   only:
-  - master
+  - tags
