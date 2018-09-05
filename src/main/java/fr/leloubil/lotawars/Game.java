@@ -467,6 +467,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
         for (int i = 0; i < villagers.size(); i++) {
             int use = ( i <= 2 ? i : i - 3);
             Villager v = villagers.get(i);
+            clearTrades(v);
             ArrayList<VillagerTrade> trades = LotaWars.getRecipeItems().get(use);
             trades.forEach(trade -> addTrade(v,trade.getFirst(),trade.getSec(),trade.getThird(),trade.getMaxuses()));
         }
@@ -474,7 +475,6 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
             if( i > 2) villagers.get(i).setCustomName(pnjNames[i - 3]);
             else villagers.get(i).setCustomName(pnjNames[i]);
         }
-
     }
 
     public static HashMap<String,Game> gameList = new HashMap<>();
@@ -524,7 +524,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
         LotaPNJ entityVillager = (LotaPNJ) ((CraftVillager) villager).getHandle();
 
         try {
-            MerchantRecipeList list = (MerchantRecipeList) entityVillager.getTrades();
+            MerchantRecipeList list = entityVillager.getTrades();
             if(list == null) list = new MerchantRecipeList();
             if (stack2 != null) {
                 net.minecraft.server.v1_8_R3.ItemStack item1 = CraftItemStack.asNMSCopy(stack1);
@@ -544,6 +544,16 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
                 MaxUses.setInt(recipe,Maxuses);
                 list.add(recipe);
             }
+            entityVillager.setTrades(list);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+    }
+
+    public void clearTrades(Villager villager){
+        LotaPNJ entityVillager = (LotaPNJ) ((CraftVillager) villager).getHandle();
+        try {
+            MerchantRecipeList list = new MerchantRecipeList();
             entityVillager.setTrades(list);
         } catch (Exception exc) {
             exc.printStackTrace();
