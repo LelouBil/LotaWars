@@ -99,7 +99,7 @@ public class Listener implements org.bukkit.event.Listener {
                     return;
                 }
                 else {
-                    p.sendMessage(ChatColor.BLUE + "Tu as bien rejoins l'équipe bleue !");
+                    p.sendMessage(ChatColor.BLUE + "Tu as bien rejoint l'équipe bleue !");
                 }
                 l.getPreblue().add(p);
                 l.getPrered().remove(p);
