@@ -1,6 +1,7 @@
 package fr.leloubil.lotawars.matchmaking;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -18,28 +19,25 @@ public class SignManager {
     //  Etat
 
     public static void UpdateSign(Sign sign){
-        sign.setLine(0,"[LotaWar]");
-        String name = sign.getLine(1);
+        sign.setLine(0,"§l§7[§5LotaWar§7]");
+        String name = ChatColor.stripColor(sign.getLine(1));
 
         Lobby lobby = Lobby.getLobbies().get(name);
 
-        sign.setLine(2,(lobby.isStarted() ? lobby.maxPlayers : lobby.getPlayersIn()) + "/" + lobby.maxPlayers);
-        sign.setLine(3,lobby.isStarted() ? "En cours" : "En attente");
+        sign.setLine(2,"§a" + (lobby.isStarted() ? lobby.maxPlayers : lobby.getPlayersIn()) + " §e/§a " + lobby.maxPlayers);
+        sign.setLine(3,lobby.isStarted() ? "§2▶ En cours..." : "§6▶ En attente");
         sign.update(true);
-        System.out.println("Updated " + name );
-        System.out.println("started " + lobby.isStarted());
-        System.out.println("in " + lobby.getPlayersIn());
     }
 
     public static boolean isGameSign(Block b){
         if(b == null) return false;
         if(b.getType() != Material.SIGN && b.getType() != Material.SIGN_POST && b.getType() != Material.WALL_SIGN) return false;
-        return ((Sign) b.getState()).getLine(0).equals("[LotaWar]");
+        return ChatColor.stripColor(((Sign) b.getState()).getLine(0)).equals("[LotaWar]");
     }
 
     public static void OnClick(Player p, Sign s){
-        if(!s.getLine(0).equals("[LotaWar]")) return;
-        String name = s.getLine(1);
+        if(!ChatColor.stripColor(s.getLine(0)).equals("[LotaWar]")) return;
+        String name = ChatColor.stripColor(s.getLine(1));
 
         Lobby lobby = Lobby.getLobbySafe(s);
         if(lobby.isStarted()){

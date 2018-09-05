@@ -15,6 +15,7 @@ public class WarGame implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) return false;
+        if(!sender.hasPermission("lotawar.admin")) return true;
         p = (Player) sender;
         if (args.length == 0) return error("usagemain");
         switch (args[0]) {

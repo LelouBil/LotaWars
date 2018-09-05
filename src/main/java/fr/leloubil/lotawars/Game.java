@@ -2,6 +2,7 @@ package fr.leloubil.lotawars;
 
 import com.sun.media.sound.InvalidFormatException;
 import fr.leloubil.lotawars.matchmaking.Lobby;
+import fr.leloubil.lotawars.matchmaking.SignManager;
 import fr.leloubil.lotawars.scoreboard.LotaPNJ;
 import fr.leloubil.lotawars.scoreboard.ScoreboardSign;
 import fr.leloubil.minihub.Listeners;
@@ -153,7 +154,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
         if(LotaWars.getScoreboardSignHashMap().containsKey(p)) {
             LotaWars.getScoreboardSignHashMap().get(p).destroy();
         }
-        setTab(p,ChatColor.getByChar(p.getPlayerListName().charAt(5)));
+        net.lotary.lotaryapi.listeners.Listeners.setPrefix(p);
         redteam.remove(p);
         blueteam.remove(p);
         MiniHub.games.remove(p.getUniqueId());
@@ -230,6 +231,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
         ToSpawn();
         SpawnPnj();
         started = true;
+        if(this instanceof Lobby) SignManager.UpdateSign(((Lobby)this).getSign());
     }
 
     public void point(Teams who){
@@ -318,7 +320,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
                     player.getInventory().setChestplate(null);
                     player.getInventory().setLeggings(null);
                     player.getInventory().setBoots(null);
-                    setTab(player,ChatColor.getByChar(player.getPlayerListName().substring(1,2)));
+                    net.lotary.lotaryapi.listeners.Listeners.setPrefix(player);
                     player.teleport(MiniHub.getLobby());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -327,6 +329,7 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
             }
         });
         started = false;
+        if(this instanceof Lobby) SignManager.UpdateSign(((Lobby)this).getSign());
         Lobby.getLobbies().get(this.name).reset();
     }
 

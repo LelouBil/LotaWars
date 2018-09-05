@@ -35,10 +35,10 @@ public class Lobby extends Game {
         maxPerTeam = maxPlayers / 2;
         this.waitZone = LotaWars.getWaitZone();
         this.sign = s;
-        s.setLine(0,"[LotaWar]");
-        s.setLine(1,w.getName());
-        s.setLine(2,"0/" + maxPlayers);
-        s.setLine(3,"En attente");
+        s.setLine(0,"§l§7[§5LotaWar§7]");
+        s.setLine(1,"§r§9" + w.getName());
+        s.setLine(2,"§a0 §e/ §a" + maxPlayers);
+        s.setLine(3,"§6▶ En attente");
         s.update(true);
     }
 
@@ -79,7 +79,7 @@ public class Lobby extends Game {
 
     static {
         ItemMeta meta = greywool.getItemMeta();
-        meta.setDisplayName(ChatColor.GRAY + "Quitter l'équipe");
+        meta.setDisplayName(ChatColor.GRAY + "Equipe aléatoire");
         greywool.setItemMeta(meta);
     }
     @Getter
@@ -117,8 +117,8 @@ public class Lobby extends Game {
         MiniHub.games.put(p.getUniqueId(),this);
         ScoreboardSign scoreboard = new ScoreboardSign(p,ChatColor.GOLD + "LotaWars");
         scoreboard.create();
-        scoreboard.setLine(0,"Lobby : " + this.getName());
-        scoreboard.setLine(1,"Joueurs : " + this.waiting.size() + "/" + this.maxPlayers);
+        scoreboard.setLine(0,ChatColor.AQUA + "Lobby : " + ChatColor.BLUE+ this.getName());
+        scoreboard.setLine(1,ChatColor.YELLOW + "Joueurs : " + ChatColor.GOLD +  this.waiting.size() + "/" + this.maxPlayers);
         LotaWars.getScoreboardSignHashMap().put(p,scoreboard);
         setTab(p,ChatColor.GRAY);
         MiniHub.giveItems(p);
@@ -177,8 +177,8 @@ public class Lobby extends Game {
 
     public void updateScoreboards(){
         waiting.forEach(p -> {
-            LotaWars.getScoreboardSignHashMap().get(p).setLine(0,"Lobby : " + this.getName());
-            LotaWars.getScoreboardSignHashMap().get(p).setLine(1,"Joueurs : " + this.waiting.size() + "/" + this.maxPlayers);
+            LotaWars.getScoreboardSignHashMap().get(p).setLine(0,ChatColor.AQUA + "Lobby : " + ChatColor.BLUE+ this.getName());;
+            LotaWars.getScoreboardSignHashMap().get(p).setLine(1,ChatColor.YELLOW + "Joueurs : " + ChatColor.GOLD +  this.waiting.size() + "/" + this.maxPlayers);
         });
     }
 

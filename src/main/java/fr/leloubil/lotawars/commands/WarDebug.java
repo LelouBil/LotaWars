@@ -15,6 +15,7 @@ public class WarDebug implements CommandExecutor {
     //Desactivé
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(!sender.hasPermission("lotawar.admin")) return false;
         if( sender instanceof Player) p = (Player) sender;
         switch (args[0]){
             case "score":

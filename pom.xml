@@ -118,7 +118,7 @@
         <dependency>
             <groupId>net.lotary</groupId>
             <artifactId>LotaryAPI</artifactId>
-            <version>4.8.3-SNAPSHOT</version>
+            <version>4.8.7-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
