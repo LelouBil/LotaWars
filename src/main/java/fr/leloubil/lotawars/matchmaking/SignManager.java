@@ -20,9 +20,11 @@ public class SignManager {
 
     public static void UpdateSign(Sign sign){
         sign.setLine(0,"§l§7[§5LotaWar§7]");
-        String name = ChatColor.stripColor(sign.getLine(1));
+        String name = sign.getLine(1);
 
-        Lobby lobby = Lobby.getLobbies().get(name);
+        if(!name.contains("§")) sign.setLine(1,"§r§9" + name);
+
+        Lobby lobby = Lobby.getLobbies().get(ChatColor.stripColor(name));
 
         sign.setLine(2,"§a" + (lobby.isStarted() ? lobby.maxPlayers : lobby.getPlayersIn()) + " §e/§a " + lobby.maxPlayers);
         sign.setLine(3,lobby.isStarted() ? "§2▶ En cours..." : "§6▶ En attente");

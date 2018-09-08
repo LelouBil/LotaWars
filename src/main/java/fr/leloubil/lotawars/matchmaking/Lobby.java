@@ -128,6 +128,7 @@ public class Lobby extends Game {
         updateTeams();
         p.updateInventory();
         Listeners.updateHideShow();
+        SignManager.UpdateSign(sign);
         updateScoreboards();
         if(this.isFull()){
             WaitPre();
