@@ -243,10 +243,10 @@ public class Lobby extends Game {
     public static HashMap<String,Lobby> lobbies = new HashMap<>();
 
     public static Lobby getLobbySafe(Sign s){
-        if(lobbies.containsKey(s.getLine(1))) return lobbies.get(s.getLine(1));
-        String map = s.getLine(1).substring(0,s.getLine(1).length() - 1);
-        String world = s.getLine(1);
-        int maxPlayers = Integer.parseInt(s.getLine(2).split("/")[1]);
+        if(lobbies.containsKey(ChatColor.stripColor(s.getLine(1)))) return lobbies.get(ChatColor.stripColor(s.getLine(1)));
+        String map = ChatColor.stripColor(s.getLine(1)).substring(0,ChatColor.stripColor(s.getLine(1)).length() - 1);
+        String world = ChatColor.stripColor(s.getLine(1));
+        int maxPlayers = Integer.parseInt(ChatColor.stripColor(s.getLine(2)).split("/")[1]);
         Lobby l = new Lobby(LotaWars.getMaplist().get(map),world,maxPlayers,Bukkit.getWorld(world),s);
         lobbies.put(world,l);
         return l;
