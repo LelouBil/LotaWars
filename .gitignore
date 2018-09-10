@@ -42,7 +42,7 @@ buildNumber.properties
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+.idea/*
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -63,6 +63,7 @@ buildNumber.properties
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
+.idea/
 *.iml
 # CMake
 cmake-build-*/
@@ -93,4 +94,20 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+### Gradle template
+.gradle
+/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
 

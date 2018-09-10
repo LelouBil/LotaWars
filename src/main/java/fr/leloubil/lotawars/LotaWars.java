@@ -198,7 +198,7 @@ public final class LotaWars extends JavaPlugin {
     }
 
 
-    public void saveMapsConfig() throws IOException, InvalidConfigurationException {
+    public void saveMapsConfig() throws IOException {
         File mapsfile = new File(getDataFolder(),"maps.yml");
         if(!getDataFolder().exists()) getDataFolder().mkdir();
         if(!mapsfile.exists()) mapsfile.createNewFile();

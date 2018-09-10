@@ -1,5 +1,5 @@
 name: LotaWars
-version: ${project.version}
+version: @version@
 main: fr.leloubil.lotawars.LotaWars
 prefix: LotaWars
 depend: [ViaVersion,LotaryAPI,MiniHub]

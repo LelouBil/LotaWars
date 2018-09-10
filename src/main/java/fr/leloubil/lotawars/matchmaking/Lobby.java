@@ -178,7 +178,7 @@ public class Lobby extends Game {
 
     public void updateScoreboards(){
         waiting.forEach(p -> {
-            LotaWars.getScoreboardSignHashMap().get(p).setLine(0,ChatColor.AQUA + "Lobby : " + ChatColor.BLUE+ this.getName());;
+            LotaWars.getScoreboardSignHashMap().get(p).setLine(0,ChatColor.AQUA + "Lobby : " + ChatColor.BLUE+ this.getName());
             LotaWars.getScoreboardSignHashMap().get(p).setLine(1,ChatColor.YELLOW + "Joueurs : " + ChatColor.GOLD +  this.waiting.size() + "/" + this.maxPlayers);
         });
     }

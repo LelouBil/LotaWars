@@ -57,7 +57,7 @@ public class Database {
 
 
 
-    public ResultSet getFromKey(String TableName,String key, String value) throws InvalidFormatException, SQLException {
+    public ResultSet getFromKey(String TableName,String key, String value) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM `" + TableName + "` WHERE `" + key +"` = ? ;");
         ps.setString(1,value);
         return ps.executeQuery();

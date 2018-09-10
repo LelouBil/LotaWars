@@ -1,66 +1,69 @@
-image: lotaryupdater:latest
+image: lotaryupdater:gradle
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode -Dmaven.repo.local=.m2/repository"
-  MAVEN_OPTS: " "
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 cache:
   paths:
-  - .m2/repository/*
-  - target/*
+  - gradle/*
+  - .gradle/*
+  - build/*
+
 
 stages:
 - build
 - test
 - package
 - mvn_deploy
-- lotary_deploy
+- deploy_lotary
+
+
+
+before_script:
+- chmod +x ./gradlew
+- export GRADLE_USER_HOME=`pwd`/.gradle
 
 
 build:
   stage: build
   script:
-  - mvn clean
-  - mvn $MAVEN_CLI_OPTS compile
+  - gradle clean classes
 
 test:
   stage: test
   script:
-  - mvn $MAVEN_CLI_OPTS test
+  - gradle test
 
-package:
+shadowJar:
   stage: package
   script:
-  - mvn $MAVEN_CLI_OPTS package
+  - gradle shadowJar
 
 deploy_mvn:
   stage: mvn_deploy
   script:
-  - mvn $MAVEN_CLI_OPTS deploy
-  - cp target/*-jar-with-dependencies.jar ./
+  - gradle publish
   only:
-  - tags
-  artifacts:
-    name: "$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME-jar"
-    paths:
-    - ./*-jar-with-dependencies.jar
+  - master
 
 deploy_test:
-  stage: lotary_deploy
+  stage: deploy_lotary
   script:
   - echo "Push vers le serveur dev"
   - lotarydeploy dev
   environment:
     name: Dev
+  only:
+  - testing
 
 deploy_prod:
-  stage: lotary_deploy
+  stage: deploy_lotary
   script:
   - echo "Push vers les serveurs"
   - lotarydeploy prod
-  dependencies:
-  - deploy_mvn
   environment:
     name: Prod
   only:
   - tags
+  except:
+  - testing
