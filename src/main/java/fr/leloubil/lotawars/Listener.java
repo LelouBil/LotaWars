@@ -1,5 +1,6 @@
 package fr.leloubil.lotawars;
 
+import fr.leloubil.lotawars.commands.WarMap;
 import fr.leloubil.lotawars.matchmaking.Lobby;
 import fr.leloubil.lotawars.matchmaking.SignManager;
 import fr.leloubil.minihub.MiniHub;
@@ -74,6 +75,13 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onInteract(PlayerInteractEvent e) {
+        if(WarMap.setUpMap.containsKey(e.getPlayer().getUniqueId())){
+            if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                WarMap.lastClick.put(e.getPlayer(), e.getClickedBlock().getLocation());
+                e.getPlayer().sendMessage("Block cliqué, " + e.getClickedBlock().getLocation().toVector().toString());
+                return;
+            }
+        }
         if(SignManager.SignList.containsKey(e.getPlayer().getUniqueId())){
             CreateLobby(e);
             return;
@@ -83,63 +91,60 @@ public class Listener implements org.bukkit.event.Listener {
             return;
         }
         Player p = e.getPlayer();
-        if(!MiniHub.games.containsKey(p.getUniqueId())) return;
-        if(!MiniHub.games.get(p.getUniqueId()).getMiniGameName().equals("LotaWar")) return;
-        fr.leloubil.minihub.interfaces.Game minigame = MiniHub.games.get(p.getUniqueId());
-        if(p.getWorld().getName().equals("lobby") && minigame.isLobby()){
-            Lobby l = (Lobby) minigame;
-            if(e.getItem() == null) return;
-            if(e.getItem().isSimilar(l.getBluewool())){
-                if(l.getPreblue().size() == l.maxPerTeam){
-                    p.sendMessage(ChatColor.BLUE + "L'équipe bleue est pleine !");
-                    return;
-                }
-                if(l.getPreblue().contains(p)){
-                    p.sendMessage(ChatColor.BLUE + "Tu es déja dans l'équipe bleue !");
-                    return;
-                }
-                else {
-                    p.sendMessage(ChatColor.BLUE + "Tu as bien rejoint l'équipe bleue !");
-                }
-                l.getPreblue().add(p);
-                l.getPrered().remove(p);
-                l.setTab(p,ChatColor.BLUE);
-                l.updateTeams();
-            }
-            else if(e.getItem().isSimilar(l.getRedwool())){
-                if(l.getPrered().size() == l.maxPerTeam){
-                    p.sendMessage(ChatColor.RED + "L'équipe rouge est pleine !");
-                    return;
-                }
-                if(l.getPrered().contains(p)){
-                    p.sendMessage(ChatColor.RED + "Tu es déja dans l'équipe rouge !");
-                    return;
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + "Tu as bien rejoint l'équipe rouge !");
-                }
-                l.getPrered().add(p);
-                l.getPreblue().remove(p);
-                l.setTab(p,ChatColor.RED);
-                l.updateTeams();
-            }
-            else if(e.getItem().isSimilar(Lobby.getGreywool())){
-                if(l.getPreblue().contains(p)){
-                    p.sendMessage(ChatColor.GRAY + "Tu as quitté l'équipe" + ChatColor.BLUE + ChatColor.ITALIC +  " bleue " + ChatColor.GRAY + " !");
-                    l.getPreblue().remove(p);
-                    l.setTab(p,ChatColor.GRAY);
-                    l.updateTeams();
-                    return;
-                }
-                if(l.getPrered().contains(p)){
-                    p.sendMessage(ChatColor.GRAY + "Tu as quitté l'équipe" + ChatColor.RED + ChatColor.ITALIC +  " rouge " + ChatColor.GRAY + " !");
+        if(MiniHub.games.containsKey(p.getUniqueId())) {
+            if (!MiniHub.games.get(p.getUniqueId()).getMiniGameName().equals("LotaWar")) return;
+            fr.leloubil.minihub.interfaces.Game minigame = MiniHub.games.get(p.getUniqueId());
+            if (p.getWorld().getName().equals("lobby") && minigame.isLobby()) {
+                Lobby l = (Lobby) minigame;
+                if (e.getItem() == null) return;
+                if (e.getItem().isSimilar(l.getBluewool())) {
+                    if (l.getPreblue().size() == l.maxPerTeam) {
+                        p.sendMessage(ChatColor.BLUE + "L'équipe bleue est pleine !");
+                        return;
+                    }
+                    if (l.getPreblue().contains(p)) {
+                        p.sendMessage(ChatColor.BLUE + "Tu es déja dans l'équipe bleue !");
+                        return;
+                    } else {
+                        p.sendMessage(ChatColor.BLUE + "Tu as bien rejoint l'équipe bleue !");
+                    }
+                    l.getPreblue().add(p);
                     l.getPrered().remove(p);
-                    l.setTab(p,ChatColor.GRAY);
+                    l.setTab(p, ChatColor.BLUE);
                     l.updateTeams();
-                    return;
+                } else if (e.getItem().isSimilar(l.getRedwool())) {
+                    if (l.getPrered().size() == l.maxPerTeam) {
+                        p.sendMessage(ChatColor.RED + "L'équipe rouge est pleine !");
+                        return;
+                    }
+                    if (l.getPrered().contains(p)) {
+                        p.sendMessage(ChatColor.RED + "Tu es déja dans l'équipe rouge !");
+                        return;
+                    } else {
+                        p.sendMessage(ChatColor.RED + "Tu as bien rejoint l'équipe rouge !");
+                    }
+                    l.getPrered().add(p);
+                    l.getPreblue().remove(p);
+                    l.setTab(p, ChatColor.RED);
+                    l.updateTeams();
+                } else if (e.getItem().isSimilar(Lobby.getGreywool())) {
+                    if (l.getPreblue().contains(p)) {
+                        p.sendMessage(ChatColor.GRAY + "Tu as quitté l'équipe" + ChatColor.BLUE + ChatColor.ITALIC + " bleue " + ChatColor.GRAY + " !");
+                        l.getPreblue().remove(p);
+                        l.setTab(p, ChatColor.GRAY);
+                        l.updateTeams();
+                        return;
+                    }
+                    if (l.getPrered().contains(p)) {
+                        p.sendMessage(ChatColor.GRAY + "Tu as quitté l'équipe" + ChatColor.RED + ChatColor.ITALIC + " rouge " + ChatColor.GRAY + " !");
+                        l.getPrered().remove(p);
+                        l.setTab(p, ChatColor.GRAY);
+                        l.updateTeams();
+                        return;
+                    }
                 }
+                return;
             }
-            return;
         }
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if(p.getGameMode() == GameMode.ADVENTURE){
