@@ -110,8 +110,8 @@ public class WarMap implements CommandExecutor {
             m.setGoldTwo(loc);
             p.sendMessage("Voila, t'a fini !");
         }
-        upStep(p);
         setM(m,p);
+        upStep(p);
     }
 
     private static void doBlue(Player p, Integer i) {
@@ -142,8 +142,9 @@ public class WarMap implements CommandExecutor {
                 break;
             }
         }
-            upStep(p);
-            setM(m,p);
+        setM(m,p);
+        upStep(p);
+
     }
 
     private static void doBriq(Player p) {
