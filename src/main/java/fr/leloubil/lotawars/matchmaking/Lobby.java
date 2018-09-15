@@ -128,10 +128,16 @@ public class Lobby extends Game {
         updateTeams();
         p.updateInventory();
         p.getWorld().getPlayers().forEach(pl -> {
-            if(getPlayers().contains(pl)) {
-                MiniHub.showBoth(pl, p);
+            if(MiniHub.games.containsKey(pl.getUniqueId())){
+                if(getPlayers().contains(pl)){
+                    if(MiniHub.isNotMod(p)) pl.showPlayer(p);
+                    if(MiniHub.isNotMod(pl)) p.showPlayer(pl);
+                }
+                else MiniHub.showBoth(pl,p);
             }
-            else MiniHub.hideBoth(pl,p);
+            else {
+                MiniHub.hideBoth(pl,p);
+            }
         });
         SignManager.UpdateSign(sign);
         updateScoreboards();
@@ -203,10 +209,10 @@ public class Lobby extends Game {
         p.teleport(MiniHub.getLobby());
         MiniHub.giveItems(p);
         p.getWorld().getPlayers().forEach(pl -> {
-            if(getPlayers().contains(pl)){
+            if(MiniHub.games.containsKey(pl.getUniqueId())){
                 MiniHub.hideBoth(pl,p);
             }
-            if(!MiniHub.games.containsKey(pl.getUniqueId())) {
+            else {
                 MiniHub.showBoth(pl,p);
             }
         });
