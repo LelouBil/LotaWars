@@ -155,14 +155,20 @@ public class WarMap implements CommandExecutor {
         val entry  = setUpMap.get(p.getUniqueId());
         val i = entry.getValue();
         val oth = new AbstractMap.SimpleEntry<Map,Integer>(m,i);
-        setUpMap.replace(p.getUniqueId(),oth);
+        LotaWars.getMaplist().put(m.getName(),m);
+        try {
+            LotaWars.getInstance().saveMaps();
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        setUpMap.put(p.getUniqueId(),oth);
     }
 
     private static Map getM(Player p) {
         return setUpMap.get(p.getUniqueId()).getKey();
     }
 
-    public static java.util.Map<Player,Location> lastClick = new HashMap<>();
+    public static final java.util.Map<Player,Location> lastClick = new HashMap<>();
 
     private static void doRed(Player p, Integer i){
         Map m = getM(p);
