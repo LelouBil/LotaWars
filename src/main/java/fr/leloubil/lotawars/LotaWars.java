@@ -2,6 +2,7 @@ package fr.leloubil.lotawars;
 
 import fr.leloubil.lotawars.commands.WarMap;
 import fr.leloubil.lotawars.commands.WarMatch;
+import fr.leloubil.lotawars.commands.Continue;
 import fr.leloubil.lotawars.matchmaking.Lobby;
 import fr.leloubil.lotawars.scoreboard.LotaPNJ;
 import fr.leloubil.lotawars.scoreboard.ScoreboardSign;
@@ -194,6 +195,7 @@ public final class LotaWars extends JavaPlugin {
         getCommand("warmap").setExecutor(new WarMap());
         //getCommand("wargame").setExecutor(new WarGame());
         getCommand("warmatch").setExecutor(new WarMatch());
+		getCommand("continue").setExecutor(new Continue());
         getServer().getPluginManager().registerEvents(new Listener(),this);
     }
 
