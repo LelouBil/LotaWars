@@ -3,13 +3,17 @@ package fr.leloubil.lotawars.commands;
 import fr.leloubil.lotawars.LotaWars;
 import fr.leloubil.lotawars.Map;
 import lombok.val;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -201,9 +205,21 @@ public class WarMap implements CommandExecutor {
         val entry = setUpMap.get(p.getUniqueId());
         entry.setValue(entry.getValue() + 1);
         if(entry.getValue() >= 10) {
+            Map m =entry.getKey();
             setUpMap.remove(p.getUniqueId());
             try {
                 LotaWars.getInstance().saveMaps();
+                File f = new File(LotaWars.getInstance().getDataFolder(),"Maps/" + entry.getKey().getName());
+                if(f.exists()) return;
+                File f2 = m.getBriquetSpawn().getWorld().getWorldFolder();
+                try {
+                    FileUtils.copyDirectory(f2,f);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return;
+                }
+                File f45 = new File(LotaWars.getInstance().getDataFolder(),"Maps/" + entry.getKey().getName() + "/uid.dat");
+                if(f45.exists()) f45.delete();
             } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
                 p.sendMessage("Une erreure est survenue.. déso bruh");
