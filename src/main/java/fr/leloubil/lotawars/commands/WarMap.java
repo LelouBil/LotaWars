@@ -204,7 +204,7 @@ public class WarMap implements CommandExecutor {
     public static void upStep(Player p){
         val entry = setUpMap.get(p.getUniqueId());
         entry.setValue(entry.getValue() + 1);
-        if(entry.getValue() >= 10) {
+        if(entry.getValue() > 10) {
             Map m =entry.getKey();
             setUpMap.remove(p.getUniqueId());
             try {
