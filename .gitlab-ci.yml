@@ -55,6 +55,8 @@ deploy_test:
     name: Dev
   only:
   - testing
+  except:
+  - master
 
 deploy_prod:
   stage: deploy_lotary
@@ -64,6 +66,6 @@ deploy_prod:
   environment:
     name: Prod
   only:
-  - tags
+  - master
   except:
   - testing
