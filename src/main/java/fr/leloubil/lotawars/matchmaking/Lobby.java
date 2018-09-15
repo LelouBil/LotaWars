@@ -127,7 +127,12 @@ public class Lobby extends Game {
         p.getInventory().setItem(4,getGreywool());
         updateTeams();
         p.updateInventory();
-        Listeners.updateHideShow();
+        p.getWorld().getPlayers().forEach(pl -> {
+            if(getPlayers().contains(pl)) {
+                MiniHub.showBoth(pl, p);
+            }
+            else MiniHub.hideBoth(pl,p);
+        });
         SignManager.UpdateSign(sign);
         updateScoreboards();
         if(this.isFull()){
@@ -197,7 +202,14 @@ public class Lobby extends Game {
         MiniHub.games.remove(p.getUniqueId());
         p.teleport(MiniHub.getLobby());
         MiniHub.giveItems(p);
-        Listeners.updateHideShow();
+        p.getWorld().getPlayers().forEach(pl -> {
+            if(getPlayers().contains(pl)){
+                MiniHub.hideBoth(pl,p);
+            }
+            if(!MiniHub.games.containsKey(pl.getUniqueId())) {
+                MiniHub.showBoth(pl,p);
+            }
+        });
         SignManager.UpdateSign(sign);
         updateScoreboards();
     }
@@ -270,7 +282,6 @@ public class Lobby extends Game {
             LotaWars.getScoreboardSignHashMap().remove(p);
         });
         waiting.clear();
-        Listeners.updateHideShow();
         SignManager.UpdateSign(sign);
 
     }

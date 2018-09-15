@@ -227,7 +227,21 @@ public class Game extends fr.leloubil.minihub.interfaces.Game {
             p.setGameMode(GameMode.ADVENTURE);
             MiniHub.games.put(p.getUniqueId(),this);
         });
-        Listeners.updateHideShow();
+        redteam.forEach(pl -> {
+            redteam.forEach(player -> {
+                MiniHub.showBoth(pl,player);
+            });
+        });
+        blueteam.forEach(pl -> {
+            redteam.forEach(player -> {
+                MiniHub.showBoth(pl,player);
+            });
+        });
+        blueteam.forEach(pl -> {
+            blueteam.forEach(player -> {
+                MiniHub.showBoth(pl,player);
+            });
+        });
         ToSpawn();
         SpawnPnj();
         started = true;
